@@ -5,18 +5,14 @@ $_['creditcard_heading_title']      = 'ClickPay - CreditCard';
 $_['mada_heading_title']            = 'ClickPay - Mada';
 $_['amex_heading_title']            = 'ClickPay - Amex';
 $_['applepay_heading_title']        = 'ClickPay - ApplePay';
-$_['atfawry_heading_title']         = 'ClickPay - @Fawry';
-$_['knet_heading_title']            = 'ClickPay - KnPay';
-$_['omannet_heading_title']         = 'ClickPay - OmanNet';
 $_['sadad_heading_title']           = 'ClickPay - Sadad';
 $_['stcpay_heading_title']          = 'ClickPay - StcPay';
-$_['valu_heading_title']            = 'ClickPay - valU';
 
 // Text
 $_['text_extension']                = 'Extensions';
 $_['text_success']                  = 'Success: You have modified ClickPay configurations';
 $_['text_edit']                     = 'Edit Payment method settings';
-$_['text_clickpayexpress']           = '<a target="_BLANK" href="https://www.clickpay.com"><img style="width:100px" src="https://admin.clickpay.com.sa/theme/clickpay/ap_brown_230x96.png" alt="ClickPay Express Checkout" title="ClickPay Express Checkout" style="border: 1px solid #EEEEEE;" /></a>';
+$_['text_clickpayexpress']           = '<a target="_BLANK" href="https://www.clickpay.com.sa"><img style="width:100px" src="https://admin.clickpay.com.sa/theme/clickpay/ap_brown_230x96.png" alt="ClickPay Express Checkout" title="ClickPay Express Checkout" style="border: 1px solid #EEEEEE;" /></a>';
 $_['text_live']                     = 'Live';
 $_['text_sandbox']                  = 'Sandbox';
 
@@ -34,10 +30,12 @@ $_['entry_geo_zone']                = 'Geo Zone';
 $_['entry_status']                  = 'Status';
 $_['entry_sort_order']              = 'Sort Order';
 $_['entry_hide_shipping']           = 'Hide Shipping';
+$_['entry_iframe']                  = 'iFrame mode';
+$_['entry_allow_associated_methods'] = 'Allow associated methods';
 
 // Help
 $_['help_total']                    = 'The checkout total the order must reach before this payment method becomes active';
-$_['help_clickpay_account_setup']    = '<a target="_blank" href="http://www.clickpay.com">Click here</a> to learn how to set up ClickPay account.';
+$_['help_clickpay_account_setup']    = '<a target="_blank" href="http://www.clickpay.com.sa">Click here</a> to learn how to set up ClickPay account.';
 
 // Error
 $_['error_permission']              = 'Warning: You do not have permission to modify payment ClickPay!';

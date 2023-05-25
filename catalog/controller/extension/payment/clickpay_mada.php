@@ -1,37 +1,12 @@
 <?php
 
-class ControllerExtensionPaymentClickpayMada extends Controller
+namespace Opencart\Catalog\Controller\Extension\Paytabs\Payment;
+
+require_once DIR_EXTENSION . 'clickpay/system/library/clickpay_api.php';
+
+use Opencart\System\Library\ClickpayCatalogController;
+
+class ClickpayMada extends ClickpayCatalogController
 {
 	public $_code = 'mada';
-
-	private $clickpayController;
-
-
-	public function init()
-	{
-        $this->load->library('clickpay_api');
-
-        $this->clickpayController = new ClickpayCatalogController($this);
-	}
-
-	public function index()
-	{
-		$this->init();
-
-		return $this->clickpayController->index($data);
-	}
-
-    public function confirm()
-    {
-        $this->init();
-        return $this->clickpayController->confirm($data);
-    }
-
-
-	public function callback()
-	{
-		$this->init();
-
-		$this->clickpayController->callback();
-	}
 }

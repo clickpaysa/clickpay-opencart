@@ -1,49 +1,12 @@
 <?php
 
-class ControllerExtensionPaymentClickpayAll extends Controller
+namespace Opencart\Admin\Controller\Extension\Clickpay\Payment;
+
+require_once DIR_EXTENSION . 'clickpay/system/library/clickpay_api.php';
+
+use Opencart\System\Library\ClickpayAdminController;
+
+class ClickpayAll extends ClickpayAdminController
 {
 	public $_code = 'all';
-	public $error = array();
-	public $userToken;
-
-	private $clickpayController;
-
-	//
-
-	function init()
-	{
-		$this->load->library('clickpay_api');
-
-		$this->clickpayController = new ClickpayController($this);
-	}
-
-
-	public function index()
-	{
-		$this->init();
-
-		$this->clickpayController->index($data);
-	}
-
-
-	public function save()
-	{
-		$this->clickpayController->save();
-	}
-
-
-	/**
-	 * Validate Extension's settings before saving the new values
-	 */
-	public function validate()
-	{
-		return $this->clickpayController->validate();
-	}
-
-
-	public function install()
-	{
-		$this->init();
-		$this->clickpayController->install();
-	}
 }

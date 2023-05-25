@@ -1,24 +1,12 @@
 <?php
 
-class ModelExtensionPaymentClickpayApplepay extends Model
+namespace Opencart\Catalog\Model\Extension\Clickpay\Payment;
+
+require_once DIR_EXTENSION . 'paytabs/system/library/clickpay_api.php';
+
+use Opencart\System\Library\ClickpayCatalogModel;
+
+class ClickpayApplepay extends ClickpayCatalogModel
 {
 	public $_code = 'applepay';
-
-	private $clickpayController;
-
-
-	private function init()
-	{
-        $this->load->library('clickpay_api');
-
-        $this->clickpayController = new ClickpayCatalogModel($this);
-	}
-
-
-	public function getMethod($address, $total)
-	{
-		$this->init();
-
-		return $this->clickpayController->getMethod($address, $total);
-	}
 }
