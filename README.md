@@ -25,7 +25,7 @@ Supports OpenCart **2.3** & **3.x**, release version (v3.8.0)
 
 #### OpenCart 3.x / OpenCart 2.3
 
-1. Download the latest release of the plugin [OpenCart 3.x / 2.3 (v3.8.0)](https://github.com/clickpaycom/clickpay-opencart/releases/download/3.8.0/clickpay-opencart.ocmod.zip)
+1. Download the latest release of the plugin [OpenCart 3.x / 2.3 (v3.8.0)](https://github.com/clickpaysa/clickpay-opencart/releases/download/v3.8.0/clickpay-opencart.ocmod.zip)
 2. Go to `"OpenCart admin panel" >> Extensions >> Installer`
 3. Click `Upload`
 4. Select the downloaded zip file (`clickpay-opencart.ocmod.zip`)
