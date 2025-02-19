@@ -1,12 +1,7 @@
-# clickpay-opencart# clickpay-opencart
 # clickpay-opencart
 
 
 The official **OpenCart** Plugin for ClickPay (PT-2).
-
-Supports OpenCart **4.x**
-
-Supports OpenCart **2.3** & **3.x**, release version (v3.8.0)
 
 ---
 
@@ -14,18 +9,9 @@ Supports OpenCart **2.3** & **3.x**, release version (v3.8.0)
 
 ### Install using OpenCart Admin panel
 
-#### OpenCart 4.x
+#### OpenCart
 
-1. Download the latest release of the plugin [OpenCart 4.x: (v4.4.1)](https://github.com/clickpaysa/clickpay-opencart/releases/download/v4.4.1/clickpay.ocmod.zip)
-2. Go to `"OpenCart admin panel" >> Extensions >> Installer`
-3. Click `Upload`
-4. Select the downloaded zip file (`clickpay.ocmod.zip`)
-5. Wait until the upload *Progress* success
-6. On the plugin row `ClickPay - OpenCart`: Click **Install**
-
-#### OpenCart 3.x / OpenCart 2.3
-
-1. Download the latest release of the plugin [OpenCart 3.x / 2.3 (v3.8.0)](https://github.com/clickpaysa/clickpay-opencart/releases/download/v3.8.0/clickpay-opencart.ocmod.zip)
+1. Download the latest release of the plugin
 2. Go to `"OpenCart admin panel" >> Extensions >> Installer`
 3. Click `Upload`
 4. Select the downloaded zip file (`clickpay-opencart.ocmod.zip`)
@@ -37,20 +23,12 @@ Supports OpenCart **2.3** & **3.x**, release version (v3.8.0)
 
 ### Install using FTP method
 
-#### OpenCart 4.x
+#### OpenCart
 
 1. Download the latest version (`clickpay.ocmod.zip`)
 2. Upload the folder to `/opencart/system/storage/marketplace/`
 3. Go to `"OpenCart admin panel" >> Extensions >> Installer`
 4. On the plugin row `ClickPay - OpenCart`: Click **Install**
-
-#### OpenCart 3.x / OpenCart 2.3
-
-1. Upload the content of this repo to the root folder of your OpenCart's website
-
-*Note: In case a previous version already installed, Replace all previous files when asking.*
-
----
 
 ## Activating the Plugin
 
@@ -76,16 +54,3 @@ Supports OpenCart **2.3** & **3.x**, release version (v3.8.0)
 
 ---
 
-## Log Access
-
-### ClickPay custome log
-
-1. Access `debug_clickpay.log` file found at: `/system/storage/logs/debug_clickpay.log`
-
-### OpenCart error log
-
-1. Navigate to: `"OpenCart admin panel" >> System >> Maintenance >> Error Logs`
-
----
-
-Done
