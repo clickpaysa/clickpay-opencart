@@ -1,0 +1,187 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="float-end">
+				<button type="submit" form="form-payment" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary">
+					<i class="fa-solid fa-save"></i>
+				</button>
+				<a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light">
+					<i class="fa-solid fa-reply"></i>
+				</a>
+			</div>
+			<h1>{{ heading_title }}</h1>
+			<ol class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+					<li class="breadcrumb-item">
+						<a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+					</li>
+				{% endfor %}
+			</ol>
+		</div>
+	</div>
+	<div class="container-fluid">
+		{% if error_warning %}
+			<div class="alert alert-danger alert-dismissible">
+				<i class="fa fa-exclamation-circle"></i>
+				{{ error_warning }}
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		{% endif %}
+		<div class="card">
+			<div class="card-header">
+				<i class="fa-solid fa-pencil"></i>
+				{{ text_edit }}
+        <span style='float: right'>{{ extension_version ?? "" }}</span>
+      </div>
+			<div class="card-body">
+				<form id="form-payment" action="{{ save }}" method="post" data-oc-toggle="ajax">
+
+
+          <div class="row mb-3">
+						<label for="input-gateway_url" class="col-sm-2 col-form-label">{{ entry_gateway_url }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="payment_clickpay_payment_gateway_url" value="{{ payment_clickpay_payment_gateway_url }}" placeholder="{{ entry_gateway_url }}" id="input-gateway_url" class="form-control"/>
+						</div>
+					</div>
+
+          <div class="row mb-3">
+						<label for="input-profile_id" class="col-sm-2 col-form-label">{{ entry_profile_id }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="payment_clickpay_payment_profile_id" value="{{ payment_clickpay_payment_profile_id }}" placeholder="{{ entry_profile_id }}" id="input-profile_id" class="form-control"/>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label for="input-client_key" class="col-sm-2 col-form-label">{{ entry_client_key }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="payment_clickpay_payment_client_key" value="{{ payment_clickpay_payment_client_key }}" placeholder="{{ entry_client_key }}" id="input-client_key" class="form-control"/>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label for="input-server_key" class="col-sm-2 col-form-label">{{ entry_server_key }}</label>
+						<div class="col-sm-10">
+							<input type="text" required name="payment_clickpay_payment_server_key" value="{{ payment_clickpay_payment_server_key }}" placeholder="{{ entry_project_secret }}" id="input-server_key" class="form-control"/>
+						</div>
+					</div>
+
+          <div class="row mb-3">
+						<label for="input-gateway_redirect" class="col-sm-2 col-form-label">{{ entry_gateway_redirect }}</label>
+						<div class="col-sm-10">
+							<select name="payment_clickpay_payment_gateway_redirect" id="input-gateway_redirect" class="form-select">
+                <option value="redirect" {% if "redirect" == payment_clickpay_payment_gateway_redirect %} selected="selected" {% endif %}>Redirect</option>
+                <option value="iframe" {% if "iframe" == payment_clickpay_payment_gateway_redirect %} selected="selected" {% endif %}>iFrame</option>
+                {# <option value="managed" {% if "managed" == payment_clickpay_payment_gateway_redirect %} selected="selected" {% endif %}>Managed</option> #}
+							</select>
+						</div>
+					</div>
+
+          <div class="row mb-3">
+						<label for="input-payment_action" class="col-sm-2 col-form-label">{{ entry_payment_action }}</label>
+						<div class="col-sm-10">
+							<select name="payment_clickpay_payment_payment_action" id="input-payment_action" class="form-select">
+                <option value="sale" {% if "sale" == payment_clickpay_payment_payment_action %} selected="selected" {% endif %}>Sale</option>
+                <option value="auth" {% if "auth" == payment_clickpay_payment_payment_action %} selected="selected" {% endif %}>Authorize</option>
+							</select>
+						</div>
+					</div>
+
+          <div class="row mb-3">
+						<label for="input-language" class="col-sm-2 col-form-label">{{ entry_language }}</label>
+						<div class="col-sm-10">
+							<select name="payment_clickpay_payment_language" id="input-language" class="form-select">
+                <option value="en" {% if "en" == payment_clickpay_payment_language %} selected="selected" {% endif %}>English</option>
+                <option value="ar" {% if "ar" == payment_clickpay_payment_language %} selected="selected" {% endif %}>Arabic</option>
+							</select>
+						</div>
+					</div>
+
+          <div class="row mb-3">
+						<label for="input-allow_saved_cards" class="col-sm-2 col-form-label">{{ entry_allow_save_cards }}</label>
+						<div class="col-sm-10">
+							<div class="form-check form-switch form-switch-lg">
+								<input type="hidden" name="payment_clickpay_payment_allow_saved_cards" value="0"/>
+								<input type="checkbox" name="payment_clickpay_payment_allow_saved_cards" value="1" id="input-allow_saved_cards" class="form-check-input" {% if payment_clickpay_payment_allow_saved_cards %} checked {% endif %}/>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label for="input-approved-status" class="col-sm-2 col-form-label">{{ entry_approved_status }}</label>
+						<div class="col-sm-10">
+							<select name="payment_clickpay_payment_approved_status_id" id="input-approved-status" class="form-select">
+								{% for order_status in order_statuses %}
+									<option value="{{ order_status.order_status_id }}" {% if order_status.order_status_id == payment_clickpay_payment_approved_status_id %} selected="selected" {% endif %}>{{ order_status.name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+          <div class="row mb-3">
+						<label for="input-authorized-status" class="col-sm-2 col-form-label">{{ entry_authorized_status }}</label>
+						<div class="col-sm-10">
+							<select name="payment_clickpay_payment_authorized_status_id" id="input-authorized-status" class="form-select">
+								{% for order_status in order_statuses %}
+									<option value="{{ order_status.order_status_id }}" {% if order_status.order_status_id == payment_clickpay_payment_authorized_status_id %} selected="selected" {% endif %}>{{ order_status.name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label for="input-failed-status" class="col-sm-2 col-form-label">{{ entry_declined_status }}</label>
+						<div class="col-sm-10">
+							<select name="payment_clickpay_payment_failed_status_id" id="input-failed-status" class="form-select">
+								{% for order_status in order_statuses %}
+									<option value="{{ order_status.order_status_id }}" {% if order_status.order_status_id == payment_clickpay_payment_failed_status_id %} selected="selected" {% endif %}>{{ order_status.name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label for="input-geo-zone" class="col-sm-2 col-form-label">{{ entry_geo_zone }}</label>
+						<div class="col-sm-10">
+							<select name="payment_clickpay_payment_geo_zone_id" id="input-geo-zone" class="form-select">
+								<option value="0">{{ text_all_zones }}</option>
+								{% for geo_zone in geo_zones %}
+									<option value="{{ geo_zone.geo_zone_id }}" {% if geo_zone.geo_zone_id == payment_clickpay_payment_geo_zone_id %} selected="selected" {% endif %}>{{ geo_zone.name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label for="input-status" class="col-sm-2 col-form-label">{{ entry_status }}</label>
+						<div class="col-sm-10">
+							<div class="form-check form-switch form-switch-lg">
+								<input type="hidden" name="payment_clickpay_payment_status" value="0"/>
+								<input type="checkbox" name="payment_clickpay_payment_status" value="1" id="input-status" class="form-check-input" {% if payment_clickpay_payment_status %} checked {% endif %}/>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label for="input-sort-order" class="col-sm-2 col-form-label">{{ entry_sort_order }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="payment_clickpay_payment_sort_order" value="{{ payment_clickpay_payment_sort_order }}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control"/>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label for="input-debug" class="col-sm-2 col-form-label">{{ entry_debug }}</label>
+						<div class="col-sm-10">
+							<div class="form-check form-switch form-switch-lg">
+								<input type="hidden" name="payment_clickpay_payment_debug" value="0"/>
+								<input type="checkbox" name="payment_clickpay_payment_debug" value="1" id="input-debug" class="form-check-input" {% if payment_clickpay_payment_debug %} checked {% endif %}/>
+							</div>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{{ footer }}
