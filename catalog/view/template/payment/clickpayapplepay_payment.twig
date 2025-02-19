@@ -1,0 +1,193 @@
+<fieldset>
+  {# <legend>{{ text_title }}</legend>
+  <p><b>{{ text_description }}</b></p>  #}
+  <form id="form-clickpayapplepay">
+    <div class="d-inline-block pt-2 pd-2 w-100 text-end">
+      <button type="submit" id="button-confirm" 
+        style="display: inline-flex; background-color: black; color: white;">
+        <img src ="{{ apple_image_url }}" alt="Apple Pay" width="200px" height = "auto"/>
+      </button>
+    </div>
+  </form>
+</fieldset>
+
+{% if "direct" == gateway_redirect %}
+  <script type="text/javascript" src="https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js"></script>
+{% endif %}
+
+<script type="text/javascript">
+
+const cpappleredirect = "{{ gateway_redirect }}"
+const cpuserloggedin = {{ is_logged_in }}
+const cpapmerchantidentifier = "{{ ap_merchant_identifier }}"
+const cpcurrency = "{{ curreny }}"
+const cptotal = {{ total }}
+const cpcountry = "{{ country }}"
+
+$('#form-clickpayapplepay').on('submit', function (e) {
+    e.preventDefault();
+   
+    var element = this;
+    
+    if (cpappleredirect == "hosted")
+    {
+      $.ajax({
+          url: 'index.php?route=extension/clickpayapplepay_payment/payment/clickpayapplepay_payment|send',
+          type: 'post',
+          contentType: 'application/x-www-form-urlencoded',
+          cache: false,
+          processData: false,
+          beforeSend: function () {
+              $('#button-confirm').prop('disabled', true).addClass('loading');
+          },
+          complete: function () {
+              $('#button-confirm').prop('disabled', false).removeClass('loading');
+          },
+          success: function (json) {
+              console.log(json)  
+              if (json['redirect']) {
+                location = json['redirect'];                
+              }
+              if (json['error']) {
+                  alert(json['error'])
+              }
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+              console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+          }
+      });
+    }
+    else 
+    {
+      clickpay_apple_pay();
+    }
+});
+
+
+function clickpay_apple_pay() {
+  console.log("apple pay button clicked.");
+
+  if (cpuserloggedin == false || cpuserloggedin == "false") {
+    alert("You are not logged in. You need to log in to use Express Checkout");
+    return;
+  }
+
+  if (window.ApplePaySession) {
+
+    console.log("Apple Pay Session");
+    clickpay_apple_pay_process();
+   
+  }
+
+}
+
+function clickpay_apple_pay_process() {
+
+  var request = {
+    countryCode: cpcountry,
+    currencyCode: cpcurrency,
+    supportedNetworks: ['visa', 'masterCard', 'amex', 'discover', 'mada'],
+    merchantCapabilities: ['supports3DS'],    
+    lineItems: [{
+      label: 'Amount',
+      amount: cptotal,
+    }
+    ],
+    total: { label: 'Apple Pay', amount: cptotal },
+  }
+
+  console.log("Request", request);
+
+  var session = new ApplePaySession(14, request);
+
+  session.begin();
+
+  try {
+    session.onvalidatemerchant = function (event) {
+      
+      console.log("starting session.onvalidatemerchant" + JSON.stringify(event) + "<br /> Validation URL " + event.validationURL + "<br />");
+
+      $url_validate = "index.php?route=extension/clickpayapplepay_payment/payment/clickpayapplepay_payment|applepayvalidate";
+
+      fetch($url_validate, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ "validationurl": event.validationURL })
+      })
+        .then(response => { console.log(response); return response.json(); })
+        .then(data => {
+            console.log("Merchant Validation Session");
+            console.log(data);
+            session.completeMerchantValidation(data);                     
+        })
+        .catch(err => {
+          console.error("validate merchant error", err)
+        });
+    }
+  }
+  catch (error) {
+    console.log("On Validate Merchant Error: " + error);
+    console.error('validate:', error);
+  }
+
+  try {
+      session.onpaymentauthorized = function (event) {
+
+      var applePaymentToken = event.payment.token;
+
+      console.log("Token" + applePaymentToken);
+
+      var orderid = '';
+      $url_process = "index.php?route=extension/clickpayapplepay_payment/payment/clickpayapplepay_payment|applepayprocess";
+
+      fetch($url_process, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ "token": applePaymentToken, "orderid": orderid })
+        })
+        .then(response => { console.log(response); return response.json();})
+        .then(result => {
+          console.log(result)
+          if (result.status == "success") {
+            // Define ApplePayPaymentAuthorizationResult
+            console.log("applepay success");
+            console.log("result redirect " + result.redirect);
+            window.location.href = result.redirect;
+          }
+          else
+          {
+            console.log("error processing token")
+            alert(result.message)
+          }
+        })
+        .catch(err => {
+          console.error("authorize payment error", err)
+        });
+		console.log("apple session complete");
+		session.completePayment(ApplePaySession.STATUS_SUCCESS);
+    };
+
+  }
+  catch (error) {
+    console.log("On Payment Authorized Error: " + error + "<br />");
+    console.log('authorized:', error);
+  }
+
+  try {
+    session.oncancel = function (event) {
+      console.log("starting session.oncancel" + JSON.stringify(event) + "<br />");
+
+      // Payment cancelled by WebKit
+    };
+  }
+  catch (error) {
+    console.log("On Cancel Error: " + error + "<br />");
+    console.log('cancel :', error);
+  }
+
+}
+</script>
