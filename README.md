@@ -1,7 +1,9 @@
 # clickpay-opencart
 
 
-The official **OpenCart** Plugin for ClickPay (PT-2).
+The official **OpenCart** Plugin for ClickPay.
+
+Supports OpenCart 4.x
 
 ---
 
@@ -9,12 +11,12 @@ The official **OpenCart** Plugin for ClickPay (PT-2).
 
 ### Install using OpenCart Admin panel
 
-#### OpenCart
+#### OpenCart 4.x
 
 1. Download the latest release of the plugin
 2. Go to `"OpenCart admin panel" >> Extensions >> Installer`
 3. Click `Upload`
-4. Select the downloaded zip file (`clickpay-opencart.ocmod.zip`)
+4. Select the downloaded zip file (`clickpay_payment.ocmod.zip`)
 5. Wait until the upload *Progress* success
 
 *Note 1*: The new uploaded plugin will overwrite any previous version.
